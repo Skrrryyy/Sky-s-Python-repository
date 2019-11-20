@@ -1,0 +1,39 @@
+import time,random
+L=random.sample(range(1,1001),1000)
+def QS(L):
+    LS=[]
+    LL=[]
+    if len(L)==1 or len(L)==0:
+        return L
+    else:
+        for i in range(len(L)):
+            if L[i]>L[0]:
+                LL.append(L[i])
+            elif L[i]<L[0]:
+                LS.append(L[i])
+        return QS(LS)+[L[0]]+QS(LL)
+Qstart_time=time.time()
+QS(L)
+Qend_time=time.time()
+Qtime=Qend_time-Qstart_time
+print("Quick Sort",Qtime)
+
+
+
+def bubble_sort(numList):
+    for i in range(len(numList)-1):
+        for j in range(len(numList)-1-i):
+            if numList[j]>numList[j+1]:
+                #temp=numList[j]
+                #numList[j]=numList[j+1]
+                #numList[j+1]=temp
+                numList[j],numList[j+1]=numList[j+1],numList[j]
+numList=L
+Bstart_time=time.time()
+bubble_sort(numList)
+Bend_time=time.time()
+Btime=Bend_time-Bstart_time
+print("Bubble Sort",Btime)
+
+percentage=(Btime/Qtime-1)*100
+print(percentage)
