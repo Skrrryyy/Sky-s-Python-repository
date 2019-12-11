@@ -1,0 +1,19 @@
+import random
+L=random.sample(range(1,50),15)
+print(L)
+k=int(input("The Nth greatest???"))
+def binary(L,k):
+    Ll=[]
+    Lr=[]
+    for i in range(len(L)):
+        if L[i]>L[0]:
+            Lr.append(L[i])
+        elif L[i]<L[0]:
+            Ll.append(L[i])
+    if k==len(Ll)+1:
+        return L[0]
+    elif k<len(Ll)+1:
+        return binary(Ll,k)
+    elif k>len(Ll)+1:
+        return binary(Lr,k-(len(Ll)+1))
+print(binary(L,k))
