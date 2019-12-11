@@ -1,0 +1,35 @@
+import random
+L = random.sample(range(1, 51), 8)
+
+def merge_sort(L):
+    print(L, "L")
+    numL = 0
+    numR = 0
+    Le = []
+    Ll = L[0:len(L) // 2]
+    Lr = L[len(L) // 2:len(L)]
+    if len(Ll) > 1:
+        Ll = merge_sort(Ll)
+    if len(Lr) > 1:
+        Lr = merge_sort(Lr)
+    while True:
+        if Ll[numL] > Lr[numR]:
+            Le.append(Lr[numR])
+            numR = numR + 1
+        else:
+            Le.append(Ll[numL])
+            numL = numL + 1
+        if numL == len(Ll) or numR == len(Lr):
+            break
+
+    while numL < len(Ll):
+        Le.append(Ll[numL])
+        numL = numL + 1
+
+    while numR < len(Lr):
+        Le.append(Lr[numR])
+        numR = numR + 1
+
+    print(Le, "Le")
+    return Le
+merge_sort(L)
