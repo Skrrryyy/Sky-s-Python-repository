@@ -1,0 +1,23 @@
+import random
+L=random.sample(range(1,10000),8)
+L=sorted(L)
+print(L)
+num=int(input("Come a number."))
+i=len(L)//2
+while True:
+    if L[i]==num:
+        print("The number is in the list.")
+        break
+    elif num<L[i]:
+        if i==i//2:
+            print("The number is not in the list.")
+            break
+        else:
+            i=i//2
+    elif num>L[i]:
+        if i==(i+len(L))//2:
+            print("The number is not in the list.")
+            break
+        else:
+            i=(i+len(L))//2
+print("over la")
