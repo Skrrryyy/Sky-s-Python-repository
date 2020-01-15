@@ -1,0 +1,98 @@
+import copy
+
+# 创建一个数独（用0代表待填的位置）
+origin = [[0, 0, 5, 3, 0, 0, 0, 0, 0],
+          [8, 0, 0, 0, 0, 0, 0, 2, 0],
+          [0, 7, 0, 0, 1, 0, 5, 0, 0],
+          [4, 0, 0, 0, 0, 5, 3, 0, 0],
+          [0, 1, 0, 0, 7, 0, 0, 0, 6],
+          [0, 0, 3, 2, 0, 0, 0, 8, 0],
+          [0, 6, 0, 5, 0, 0, 0, 0, 9],
+          [0, 0, 4, 0, 0, 0, 0, 3, 0],
+          [0, 0, 0, 0, 0, 9, 7, 0, 0]]
+
+# 创建一个数独的拷贝用于尝试，用字典保存可能的数字
+soduku = copy.deepcopy(origin)
+soduku_possible = {}
+
+
+# 对横向第x个，纵向第y个的数字进行尝试
+def get_possible(y, x):
+    num_possible = []
+
+# 如果该数字为0，对在横向、纵向、宫内进行比较，寻找可能的取值
+# list1为横向，list2为纵向，list3为宫
+    if soduku[y][x] == 0:
+        list1 = soduku[y]
+        list2 = []
+        list3 = []
+
+        for a in range(9):
+            list2.append(soduku[a][x])
+
+        for a in range(y // 3 * 3, y // 3 * 3 + 3):
+            for b in range(x // 3 * 3, x // 3 * 3 + 3):
+                list3.append(soduku[a][b])
+
+        for num in range(1, 10):
+            if num not in list1 and num not in list2 and num not in list3:
+                num_possible.append(num)
+
+        return num_possible
+
+    else:
+        num_possible = [soduku[y][x]]
+
+        return num_possible
+
+
+# 向前寻找下一个数字，注意换行
+def forward(y, x):
+    if x < 8:
+        x += 1
+    else:
+        x = 0
+        y += 1
+    return y, x
+
+
+# 向后寻找前一个数字，注意换行
+def backward(y, x):
+    if x > 0:
+        x -= 1
+    else:
+        x = 8
+        y -= 1
+    return y, x
+
+
+def main():
+    x, y = 0, 0 # 确定第一个格子为（0,0）
+    while -1 < y < 9:
+        soduku_possible[(y, x)] = get_possible(y, x)
+        if soduku_possible[(y, x)]:
+            soduku[y][x] = soduku_possible[(y, x)].pop()
+            y, x = forward(y, x)
+            print(soduku)
+        else:
+            y, x = backward(y, x)
+            print(soduku)
+            while True:
+                if soduku_possible[(y, x)]:
+                    soduku[y][x] = soduku_possible[(y, x)].pop()
+                    y, x = forward(y, x)
+                    print(soduku)
+                    break
+                else:
+                    soduku[y][x] = origin[y][x]
+                    y, x = backward(y, x)
+                    print(soduku)
+
+    if y == 9:
+        for i in soduku:
+            print(i)
+    if y == 0:
+        print("no solution")
+
+
+main()
